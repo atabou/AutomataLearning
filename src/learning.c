@@ -5,7 +5,17 @@
 #include <assert.h>
 #include <stdio.h>
 
-void make_hankel_matrix(hankel_matrix* H) {
+void make_hankel_matrix(hankel_matrix* H, int* alphabet, int n) {
+
+
+    H->A  = (int*) malloc(sizeof(int) * n);
+    H->nA = n;
+
+    for(int i=0; i<H->nA; i++) {
+
+        H->A[i] = alphabet[i];
+
+    }
 
     /**************************************************************************
      * Initialize S and E to the sets that contain only the empty string.
@@ -78,12 +88,12 @@ int hankel_matrix_isconsistent(hankel_matrix* H, inconsistency_t* icstcy) {
 
             if (array_equality(H->St[s1], H->nE, H->St[s2], H->nE)) { // O(|E|)
 
-                for (int a=0; a<H->nA; a++) {
+                for (int a=0; a<H->nA; a++) { // O(|A|)
 
                     int* s1a = *(H->mapper[s1][a]);
                     int* s2a = *(H->mapper[s2][a]);
 
-                    for(int e=0; e < H->nE; e++) {
+                    for(int e=0; e < H->nE; e++) { // O(|E|)
 
                         if(s1a[e] != s2a[e]) {
 
@@ -382,26 +392,27 @@ void hankel_matrix_conformize(hankel_matrix* H, dfa* d) {
 
 }
 
-void convert_hankel_to_dfa(hankel_matrix* H, DFA* M);
+
+void convert_hankel_to_dfa(hankel_matrix* H, dfa* M);
 
 
-void learn_automata(dfa teacher) {
+void learn_automata(dfa* teacher) {
 
     hankel_matrix H;
 
     make_hankel_matrix(&H);
-
+/*
     do {
 
         dfa M;
 
-        convert_hankel_to_dfa(H, M);
+        convert_hankel_to_dfa(&H, &M);
 
         string_t witness;
 
-        if(equivalent(&M, &teacher, &(witness.symbols), &(witness.length))) {
+        if(equivalent(&M, teacher, &witness) {
 
-                        
+            exit(0);
 
 
         }
@@ -411,8 +422,10 @@ void learn_automata(dfa teacher) {
 
     } while();
 
+*/
 
     free_hankel_matrix(&H);
+
 
 
 }

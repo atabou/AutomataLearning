@@ -26,7 +26,7 @@
     } hankel_matrix;
 
 
-    void make_hankel_matrix(hankel_matrix* H);
+    void make_hankel_matrix(hankel_matrix* H, int* alphabet, int n);
 
     void free_hankel_matrix(hankel_matrix* H);
 
