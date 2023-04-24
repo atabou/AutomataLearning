@@ -4,15 +4,15 @@
 #include <stdio.h>
 #include <assert.h>
 
-void test_membership(dfa d, int* string, int n, int expected) {
+void test_membership(dfa d, string_t string, int expected) {
 
-    int ismember = membership(d, string, n);
+    int ismember = membership(&d, &string);
 
     printf("String: ");
 
-    for(int i=0; i<n; i++) {
+    for(int i=0; i<string.length; i++) {
 
-        printf("%d", string[i]);
+        printf("%d", string.symbols[i]);
 
     }
 
@@ -52,39 +52,40 @@ int main() {
     };
 
 
-
     // TESTS
+    
+    int arr[80];
+    string_t string;
 
-    int string[80];
-    int n;
+    string.symbols = arr;
 
-    n = 3;
-    string[0] = 0;
-    string[1] = 1;
-    string[2] = 0;
+    string.length = 3;
+    string.symbols[0] = 0;
+    string.symbols[1] = 1;
+    string.symbols[2] = 0;
 
-    test_membership(d1, string, n, 1);
+    test_membership(d1, string, 1);
 
-    n = 3;
-    string[0] = 1;
-    string[1] = 1;
-    string[2] = 1;
+    string.length = 3;
+    string.symbols[0] = 1;
+    string.symbols[1] = 1;
+    string.symbols[2] = 1;
 
-    test_membership(d1, string, n, 1);
+    test_membership(d1, string, 1);
 
-    n = 3;
-    string[0] = 0;
-    string[1] = 0;
-    string[2] = 0;
+    string.length = 3;
+    string.symbols[0] = 0;
+    string.symbols[1] = 0;
+    string.symbols[2] = 0;
 
-    test_membership(d1, string, n, 0);
+    test_membership(d1, string, 0);
 
-    n = 3;
-    string[0] = 1;
-    string[1] = 0;
-    string[2] = 1;
+    string.length = 3;
+    string.symbols[0] = 1;
+    string.symbols[1] = 0;
+    string.symbols[2] = 1;
 
-    test_membership(d1, string, n, 0);
+    test_membership(d1, string, 0);
 
     state eqstates[3] = {0, 1, 2};
     int* eqtransition[3];
@@ -114,21 +115,24 @@ int main() {
         .starting=eqstarting 
     };
 
-    int* ex;
-    int k;
-    int eq = equivalent(d1, d2, &ex, &k);
+    int eq = equivalent(&d1, &d2, &string);
 
     printf("equivalence: %d\n", eq);
 
     if(!eq) {
 
-        for(int i=k-1; i>=0; i--) {
 
-            printf("%d\n", ex[i]);
+        printf("counter-example: ");
+        
+        for(int i=string.length-1; i>=0; i--) {
+
+            printf("%d\n", string.symbols[i]);
 
         }
 
         printf("\n");
+
+        free_string(string);
 
     }
 
