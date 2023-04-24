@@ -10,23 +10,6 @@
 #define DEBUG 1
 
 
-int iselementof(int x, int* arr, int n) {
-
-    for(int i=0; i<n; i++) {
-
-        if(x == arr[i]) {
-
-            return 1;
-
-        }
-
-    }
-
-    return 0;
-
-}
-
-
 void make_string(string_t* s, int* symbols, int n) {
 
     if(symbols != NULL && n > 0) {

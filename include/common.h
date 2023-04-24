@@ -41,4 +41,21 @@
 
     }
 
+
+    int iselementof(int x, int* arr, int n) {
+
+        for(int i=0; i<n; i++) {
+
+            if(x == arr[i]) {
+
+                return 1;
+
+            }
+
+        }
+
+        return 0;
+
+    }
+
 #endif
